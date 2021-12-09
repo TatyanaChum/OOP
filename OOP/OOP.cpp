@@ -4,6 +4,10 @@
 //IntroductionToOOP
 #include<iostream>
 using namespace std;
+using std::cout;
+using std::cin;
+using std::endl;
+
 // Обьектно-ориентированное программирование (ООП) - это подход, при котором программ строится из объектов и взаиможействия между этими объектами.
 // Ключевым понятием ООП является объект.
 // Обьект - некая сущность, которая существует в пространстве и времени. Каждый обьект можно как-то охарактеризовать.
@@ -60,15 +64,24 @@ public:
 		cout << "Destructor: \t" << this << endl;
 	}
 	//Methods:
-	void Print() const
+	double distance(Point other)
 	{
+		//other другой, другая точка
+		double x_distance = this->x - other.x;
+		double y_distance = this->y - other.y;
+		double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
+			//sqrt - Square Root(квадратный корень)
+		return distance;
+	}
+	void Print() const
+	{ 
 		cout << "X= " << x << "\tY = " << y << endl;
 	}
 };
 //#define STRUCT_POINT
 //Point G;// глобальный обьект.
 //int g;// глобальная переменная DEPRECATED - не рекомендуется для использования
-
+//#define CONSTRUCTORS_CHECK
 void main()
 {
 	setlocale(LC_ALL, "Russian");
@@ -90,6 +103,7 @@ void main()
 	cout << (*pA).x << tab << (*pA).y << endl;
 #endif // STRUCT_POINT
 
+#ifdef CONSTRUCTORS_CHECK
 	Point A;
 	//A.set_x(2);
 	//A.set_y(3);
@@ -104,6 +118,11 @@ void main()
 
 	Point D(8); // single - argument constructor
 	D.Print();
+#endif //CONSTRUCTORS_CHECK
+	Point A(2, 3);
+	Point B(3, 4);
+	cout << "distance A and B = " << A.distance(B) << endl;
+	cout << "distance B and A = " << B.distance(A) << endl;
 	/*
 	----------------------------------------------
 	.  - Оператор прямого доступа	(Point operator)
@@ -156,9 +175,9 @@ void main()
 	////cout << i << endl;
 	//cout << endl;
 	// безфмянное пространство имен
-	{
+	/*{
 		int a = 2;
-	}
+	}*/ 
 	//cout << a << endl;
 }
 
