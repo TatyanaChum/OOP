@@ -78,6 +78,13 @@ public:
 		cout << "X= " << x << "\tY = " << y << endl;
 	}
 };
+
+double distance(Point A, Point B)
+{
+	double x_distance = A.get_x() - B.get_x();
+	double Y_distance = A.get_y() - B.get_y();
+	return sqrt(x_distance * x_distance + Y_distance * Y_distance);
+}
 //#define STRUCT_POINT
 //Point G;// глобальный обьект.
 //int g;// глобальная переменная DEPRECATED - не рекомендуется для использования
@@ -123,6 +130,8 @@ void main()
 	Point B(3, 4);
 	cout << "distance A and B = " << A.distance(B) << endl;
 	cout << "distance B and A = " << B.distance(A) << endl;
+	cout << "Растояние между точками А и В = " << distance(A, B) << endl;
+	cout << "Растояние между точками B и A = " << distance(B, A) << endl;
 	/*
 	----------------------------------------------
 	.  - Оператор прямого доступа	(Point operator)
