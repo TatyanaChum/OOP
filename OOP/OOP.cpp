@@ -59,18 +59,51 @@ public:
 		this->y = y;
 		cout << "Constructor:\t" << this << endl;
 	}
+
+	Point(const Point& other)
+	{
+		this->x = other.x;
+		this->y = other.y;
+		cout << "CopyConstructor: " << this << endl;
+	}
 	~Point()
 	{
 		cout << "Destructor: \t" << this << endl;
 	}
+
+	//operators:
+	Point& operator = (const Point& other)
+	{
+		this->x = other.x;
+		this->y = other.y;
+		cout << "CopyAssigment:\t" << this << endl;
+		return *this;
+	}
+
+	Point& operator ++()
+	{
+		this->x++;
+		this->y++;
+		return *this;
+	}
+
+	Point operator ++(int)
+	{
+		Point old = *this; //сохраняем старое значение обьекта
+		x++;
+		y++;
+		return old;//старое не измененное значение обьекта
+	}
+
 	//Methods:
-	double distance(Point other)
+	double distance(const Point& other) const// константный метод - не изменяет обьект, для которого вызывается метод
 	{
 		//other другой, другая точка
 		double x_distance = this->x - other.x;
 		double y_distance = this->y - other.y;
 		double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
 			//sqrt - Square Root(квадратный корень)
+		//this ->x *=100; //В константном метде такого делать нельзя
 		return distance;
 	}
 	void Print() const
@@ -79,16 +112,25 @@ public:
 	}
 };
 
-double distance(Point A, Point B)
+double distance(const Point& A, const Point& B)
 {
 	double x_distance = A.get_x() - B.get_x();
 	double Y_distance = A.get_y() - B.get_y();
 	return sqrt(x_distance * x_distance + Y_distance * Y_distance);
 }
+Point operator + (const Point& left, const Point& right)
+{
+	Point result;
+	result.set_x(left.get_x() + right.get_x());
+	result.set_y(left.get_y() + right.get_y());
+	return result;
+}
 //#define STRUCT_POINT
 //Point G;// глобальный обьект.
 //int g;// глобальная переменная DEPRECATED - не рекомендуется для использования
 //#define CONSTRUCTORS_CHECK
+//#define DISTANCE
+//#define ASSIGNMENT_CHECK
 void main()
 {
 	setlocale(LC_ALL, "Russian");
@@ -111,10 +153,12 @@ void main()
 #endif // STRUCT_POINT
 
 #ifdef CONSTRUCTORS_CHECK
+
 	Point A;
 	//A.set_x(2);
 	//A.set_y(3);
 	//cout << A.get_x() << "\t" << A.get_y() << endl;
+
 	A.Print();
 
 	Point B(4, 5);
@@ -125,13 +169,64 @@ void main()
 
 	Point D(8); // single - argument constructor
 	D.Print();
+
+	Point E = D;
+	E.Print();
+	Point F(B);//CopyConstructor
+	F.Print();
 #endif //CONSTRUCTORS_CHECK
+
+#ifdef DISTANCE
 	Point A(2, 3);
 	Point B(3, 4);
+	cout << "\n-------------------------------------------\n";
 	cout << "distance A and B = " << A.distance(B) << endl;
+	cout << "\n-------------------------------------------\n";
 	cout << "distance B and A = " << B.distance(A) << endl;
+	cout << "\n-------------------------------------------\n";
 	cout << "Растояние между точками А и В = " << distance(A, B) << endl;
+	cout << "\n-------------------------------------------\n";
 	cout << "Растояние между точками B и A = " << distance(B, A) << endl;
+	cout << "\n-------------------------------------------\n";
+
+	////Point G;
+	//G = F;//CopyAssignment
+	//G.Print();  
+#endif // DISTANCE
+
+
+
+#ifdef ASSIGNMENT_CHECK
+	int a, b, c;
+	a = b = c = 0;
+	cout << a << tab << b << tab << c << endl;
+	
+	Point A, B, C;
+	cout << "\n------------------\n";
+	A = B = C = Point(2, 3);
+	//Point(2,3) - явно вызываем конструктор, который создает временный безымянный объект
+	cout << "\n------------------\n";
+	A.Print();
+	B.Print();
+	C.Print();
+
+#endif //ASSIGNMENT_CHECK
+
+	int a = 2;
+	int b = 3;
+	int c = a + b;
+
+	Point A(2, 3);
+	Point B(4, 5);
+	//Point C = A + B;
+	//C.Print();
+	//C++;
+	//C.Print();
+
+	B = ++A;
+	A.Print();
+	B.Print();
+
 	/*
 	----------------------------------------------
 	.  - Оператор прямого доступа	(Point operator)
