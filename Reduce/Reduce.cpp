@@ -138,7 +138,7 @@ Fraction operator*(Fraction left, Fraction right)
 	(
 		left.get_numenator() * right.get_numenator(),
 		left.get_denominator() * right.get_denominator()
-	); to_proper().reduce();
+	). to_proper().reduce();
 	/*result.set_numerator(left.get_numenator() * right.get_numenator());
 	result.set_denominator(left.get_denominator() * right.get_denominator);*/
 
