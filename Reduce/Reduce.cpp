@@ -78,9 +78,9 @@ public:
 
 	//Methods:
 
-	void reduce()
+	Fraction& reduce()
 	{
-		if (numerator == 0) return;
+		if (numerator == 0) return *this;
 		int more, less;
 		int rest;
 		if (numerator > denominator)
@@ -102,18 +102,20 @@ public:
 		int GCD = more; //GCD - Greatest Common Divisor (наибольший общий делитель)
 		numerator /= GCD;
 		denominator /= GCD;
-
+		return *this;
 	}
-	void to_improper()
+	Fraction& to_improper()//переводит дробь в неправильную
 	{
 		numerator += integer * denominator;
 		integer = 0;
+		return *this;
 	}
-	void to_proper()
+	Fraction& to_proper()//переводит дробь в правильную
 	{
 		integer += numerator / denominator;
 		numerator %= denominator;
 		//numerator = nemerator%denominator;
+		return *this;
 	}
 	void print() const
 	{
@@ -132,15 +134,13 @@ Fraction operator*(Fraction left, Fraction right)
 {
 	left.to_improper();
 	right.to_improper();
-	Fraction result
+	return Fraction //явно вызывваем конструктор, который создает временный объект
 	(
 		left.get_numenator() * right.get_numenator(),
 		left.get_denominator() * right.get_denominator()
-	);
+	); to_proper().reduce();
 	/*result.set_numerator(left.get_numenator() * right.get_numenator());
 	result.set_denominator(left.get_denominator() * right.get_denominator);*/
-	result.to_proper();
-	return result;
 
 }
 //#define CONSTRUCTORS_CHECK
