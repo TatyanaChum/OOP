@@ -255,13 +255,14 @@ bool operator>=(Fraction left, Fraction right)
 	return !(left >= right);
 }
 
-bool operator!=( Fraction left, const Fraction right)
+bool operator!=( Fraction left,  Fraction right)
 {
 	
 	return !(left != right);
 }
 
 //#define CONSTRUCTORS_CHECK
+//#define OPERATORS_CHECK
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -277,6 +278,7 @@ void main()
 	D.print();
 #endif // CONSTRUCTORS_CHECK
 
+#ifdef OPERATORS_CHECK
 	double a = 2.5;
 	double b = 3.4;
 	double c = a * b;
@@ -330,4 +332,6 @@ void main()
 
 	value2 = A != B;
 	cout << "Value1 = " << value2 << endl;
+#endif // OPERATORS_CHECK
+
 }
