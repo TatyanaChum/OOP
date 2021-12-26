@@ -1,5 +1,6 @@
 ﻿//Fraction
 
+#pragma warning (disable:4326)//отключаем warning по коду
 #include <iostream>
 using namespace std;
 using std::cin;
@@ -65,7 +66,23 @@ public:
 		cout << "DefaultConstructor: \t" << this << endl;
 	}
 
-	Fraction(int integer)
+	Fraction(double input)
+	{
+		denominator = 1;
+		while (int(input) != input)
+		{
+			this->integer = 0;
+			this->numerator = input * 10;
+			this -> denominator *= 10;
+			input += 10;
+		}
+		to_proper().reduce();
+		std::cout << "1argConstructor for double:\t" << this << std::endl;
+	}
+
+
+	explicit Fraction(int integer)
+//explicit - явный, разрешает только явные преобразования
 	{
 		this->integer = integer;
 		this->numerator = 0;
@@ -91,6 +108,15 @@ public:
 		cout << "Destructor: \t" << this << endl;
 	}
 	//operators:
+
+	Fraction& operator = (const Fraction& other)
+	{
+		this->integer = other.integer;
+	this->numerator = other.numerator;
+	this->denominator = other.denominator;
+	cout << "CopyAssignment:\t" << this << endl;
+	return *this;
+	}
 	
 	Fraction& operator*=(const Fraction& other)
 	{
@@ -112,8 +138,22 @@ public:
 	Fraction& operator/=(const Fraction& other)
 	{
 		return *this = *this / other;
-		//		A	 =	A	-	B;
+		//		A	 =	A	/	B;
 	}
+
+	//type-cast operators:
+
+	explicit operator int()const
+	{
+		return integer;
+	}
+
+	operator double()
+	{
+		to_improper();
+		return double(numerator) / double(denominator);
+	}
+
 	//Methods:
 
 	Fraction& reduce()
@@ -263,6 +303,8 @@ bool operator!=( Fraction left,  Fraction right)
 
 //#define CONSTRUCTORS_CHECK
 //#define OPERATORS_CHECK
+//#define TYPE_CONVERSIONS_BASICS
+//#define FROM_OTHER_TO_CLASS
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -333,5 +375,50 @@ void main()
 	value2 = A != B;
 	cout << "Value1 = " << value2 << endl;
 #endif // OPERATORS_CHECK
+
+#ifdef TYPE_CONVERSIONS_BASICS
+	int a = 2; //NO conversion
+	double b = 3; //From less to more
+	int c = b; //From more to less without data loss
+	int d = 4.5; //From more to less with data loss
+	cout << d << endl;
+#endif // TYPE_CONVERSIONS_BASICS
+
+#ifdef FROM_OTHER_TO_CLASS
+
+	double a = 2;//from int to double
+	Fraction A = (Fraction)5; //from int ro fraction
+	//Single - argument constructor
+	A.print();
+
+	Fraction B;
+	cout << "\n_______________________\n";
+	B = Fraction(8);//CopyAssignment
+	cout << "\n_______________________\n";
+	B.print();
+
+	//Fraction C = 12;//explicit constructor невозможно вызвать так
+	Fraction C(12); //НО explicit constructor всегда можно вызвать так 
+	Fraction D{ 13 }; //или вот так    
+#endif // FROM_OTHER_TO_CLASS
+	
+	//double b = 2; //From more to less
+	////from double to int 
+	//int c = 2;
+
+	//Fraction A(2);
+	//int a(A);
+	//cout << a << endl; 
+	//int i = (int)A;
+
+	Fraction A{ 2,3,4 };
+	double a = A;
+	cout << a << endl;
+
+	double b = 2.75;
+	Fraction B = b;
+	B.print();
+
+
 
 }
