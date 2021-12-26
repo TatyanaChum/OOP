@@ -66,17 +66,13 @@ public:
 		cout << "DefaultConstructor: \t" << this << endl;
 	}
 
-	Fraction(double input)
+	Fraction(double decimal)
 	{
-		denominator = 1;
-		while (int(input) != input)
-		{
-			this->integer = 0;
-			this->numerator = input * 10;
-			this -> denominator *= 10;
-			input += 10;
-		}
-		to_proper().reduce();
+		integer = decimal;
+		denominator = 1e+9; //1*10^9
+		decimal -= integer;//убираем целую часть из десятичной дроби
+		numerator = decimal * denominator;
+		reduce();
 		std::cout << "1argConstructor for double:\t" << this << std::endl;
 	}
 
@@ -148,10 +144,10 @@ public:
 		return integer;
 	}
 
-	operator double()
+	operator double() const
 	{
-		to_improper();
-		return double(numerator) / double(denominator);
+		
+		return integer + double(numerator) / denominator;
 	}
 
 	//Methods:
@@ -412,11 +408,11 @@ void main()
 	//int i = (int)A;
 
 	Fraction A{ 2,3,4 };
-	double a = A;
+	double a = A;//Преобазуем наш тип в другой тип
 	cout << a << endl;
 
 	double b = 2.75;
-	Fraction B = b;
+	Fraction B = b; //преобразуем другой тип в наш, для этого нужен констуктор с одним параметром типа double
 	B.print();
 
 
