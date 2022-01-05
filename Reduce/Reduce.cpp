@@ -333,11 +333,23 @@ std::istream& operator>>(std::istream& is, Fraction& obj)
 	{
 		number[n++] = pch;
 	}
-	for (size_t i = 0; i < n; i++)
+	//for (size_t i = 0; i < n; i++)
+	//{
+	//	cout << number[i] << "\t";
+	//}
+	//cout << endl;
+
+	switch (n)
 	{
-		cout << number[i] << "\t";
+	case 1: obj.set_integer(atoi(number[0])); break;
+		case 2: 
+			obj.set_numerator(atoi(number[0]));
+			obj.set_denominator(atoi(number[1])); break;
+		case 3: obj.set_integer(atoi(number[0]));
+			obj.set_numerator(atoi(number[1]));
+			obj.set_denominator(atoi(number[2]));
 	}
-	cout << endl;
+
 	return is;
 }
 
