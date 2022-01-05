@@ -322,6 +322,7 @@ std::istream& operator>>(std::istream& is, Fraction& obj)
 	//obj.set_integer(integer);
 	//obj.set_numerator(numerator);
 	//obj.set_denominator(denominator);
+	obj = Fraction();//обнуляем обьект
 
 	const int size = 256;
 	char buffer[size] = {};
