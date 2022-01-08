@@ -322,7 +322,7 @@ std::istream& operator>>(std::istream& is, Fraction& obj)
 	//obj.set_integer(integer);
 	//obj.set_numerator(numerator);
 	//obj.set_denominator(denominator);
-	obj = Fraction();//обнуляем обьект
+	obj = Fraction();//обнуляем обьект  
 
 	const int size = 256;
 	char buffer[size] = {};
@@ -343,6 +343,7 @@ std::istream& operator>>(std::istream& is, Fraction& obj)
 	switch (n)
 	{
 	case 1: obj.set_integer(atoi(number[0])); break;
+		//atoi() - ASCII-string to integer, преобразует строку ASCII - символов в значение типа int
 		case 2: 
 			obj.set_numerator(atoi(number[0]));
 			obj.set_denominator(atoi(number[1])); break;
