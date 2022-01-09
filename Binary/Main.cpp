@@ -39,12 +39,39 @@ public:
 			decimal /= 2;
 		}
 	}
+	Binary(const Binary& other)
+	{
+		this->capacity = other.capacity;
+		this->number = new bool[capacity] {};
+		for (size_t i = 0; i < capacity; i++)
+		{
+			this->number[i] = other.number[i];
+		}
+		cout << "CopyConstructor:\t" << this << endl;
+	}
 	~Binary()
 	{
 		delete[]number;
 		number = nullptr;
 		capacity = 0;
 		cout << "Destructor:\t" << this << endl;
+	}
+	//Operators:
+
+	Binary& operator =(const Binary& other)
+	{
+		if (this == &other) return *this;
+		delete[] number;
+
+		this->capacity = other.capacity;
+		this->number = new bool[capacity] {};
+		for (size_t i = 0; i < capacity; i++)
+		{
+			this->number[i] = other.number[i];
+		
+		}
+		cout << "CopyAssignment:\t" << this << endl;
+		return *this;
 	}
 
 	std::ostream& print(std::ostream& os = std::cout) const
@@ -79,4 +106,8 @@ void main()
 
 	Binary num2 = 380; //двоичное число инициализируем десятичным числом
 	cout << num2 << endl;
+
+	Binary num3;
+	num3= num2;
+	cout << num3 << endl;
 }
