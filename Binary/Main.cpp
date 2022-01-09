@@ -49,6 +49,16 @@ public:
 		}
 		cout << "CopyConstructor:\t" << this << endl;
 	}
+	Binary(Binary&& other)
+	{
+		this->capacity = other.capacity;
+		this->number = other.number;
+		other.number = nullptr;
+		other.capacity = 0;
+		cout << "MoveConstructor:\t" << this << endl;
+
+	}
+
 	~Binary()
 	{
 		delete[]number;
@@ -72,6 +82,17 @@ public:
 		}
 		cout << "CopyAssignment:\t" << this << endl;
 		return *this;
+	}
+	Binary& operator =(Binary&& other)
+	{
+		if (this == &other) return *this;
+		delete[]number;
+		this->capacity = other.capacity;
+		this->number = other.number;
+		other.number = nullptr;
+		other.capacity = 0;
+		cout << "MoveAssignment:\t" << this << endl;
+
 	}
 
 	std::ostream& print(std::ostream& os = std::cout) const
