@@ -2,7 +2,9 @@
 using std::cin;
 using std::cout;
 using std::endl;
-
+// Move методы:
+//MoveConstructor -  онструкторы переноса
+//MoveAssignment - оператор присваивани€ - переноса
 #define delimiter "\n-------------------------------------\n"
 class String;
 String operator+(const String& left, const String& right);
@@ -48,6 +50,19 @@ public:
 		for (int i = 0; i < size; i++) this->str[i] = other.str[i];
 		cout << "CopyConstructor:\t" << this << endl;
 	}
+	String(String&& other)noexcept //никогда не бросает исключение
+	{
+		//MoveConstructor должен выполн€ть поверхностное копирование(Shallow copy)
+		this->size=other.size;
+		this->str = other.str; //просто копируем адрес пам€ти принадлежащий другому обьекту
+		//«анул€ем другой обьект дл€ того чтобы его пам€ть не смог удалить деструктор:
+		other.size = 0;
+		other.str = nullptr;
+		//cout << "MoveConstructor:\t" << this << endl;
+		/*this->str = nullptr;
+		*this = std::move(other);*/
+		cout << "MoveConstructor:\t" << this << endl;
+	}
 	~String()
 	{
 		delete[] str;
@@ -67,6 +82,23 @@ public:
 		cout << "CopyAssignment:\t" << this << endl;
 		return*this;
 	}
+
+	String& operator =(String&& other)
+	{
+		if (this == &other) return *this;
+		delete this->str;
+		this->size = other.size;
+		this->str = other.str;
+
+		other.size = 0;
+		other.str = nullptr;
+		cout << "Moveassignment:\t" << this << endl;
+		return *this;
+	}
+	//Class(const Class& other);//CopyConstructor
+	//Class& operator = (const Class& other); //CopyAssignment
+	//Class(Class&& other); //MoveConstructor
+	//Class& operator = (Class&& other); //MoveAssignment
 
 	String& operator +=(const String& other)
 	{
@@ -133,7 +165,7 @@ std::istream& getline(std::istream& is, String& obj)
 
 //char str[] = { 's', 't', 'r', 'o', 'k', 'a' };
 //#define CONSTRUCTORS_CHECK
-//#define OPERATORS_CHECK
+#define OPERATORS_CHECK
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -162,7 +194,8 @@ void main()
 	String str1 = "Hello";
 	String str2 = "World";
 	cout << delimiter << endl;
-	String str3 = str1 + str2;
+	String str3;
+	str3= str1 + str2;
 	cout << delimiter << endl;
 	cout << str3 << endl;
 	cout << delimiter << endl;
@@ -172,11 +205,11 @@ void main()
 	cout << delimiter << endl;
 #endif // OPERATORS_CHECK
 
-	String str;
-	cout << "¬ведите строку:\t";
-	/*cin >> str;*/
-	getline(cin, str);
-	cout << str << endl;
-	str.print();
+	//String str;
+	//cout << "¬ведите строку:\t";
+	///*cin >> str;*/
+	//getline(cin, str);
+	//cout << str << endl;
+	//str.print();
 
 }
