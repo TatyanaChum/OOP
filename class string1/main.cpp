@@ -133,7 +133,7 @@ std::istream& getline(std::istream& is, String& obj)
 
 //char str[] = { 's', 't', 'r', 'o', 'k', 'a' };
 //#define CONSTRUCTORS_CHECK
-//#define OPERATORS_CHECK
+#define OPERATORS_CHECK
 //#define INPUT_CHECK
 void main()
 {
@@ -182,13 +182,13 @@ void main()
 	str.print();
 #endif // INPUT_CHECK
 
-	String str1; //Default constructor
-	str1.print();
-	String str2 = "Hello"; //Single-argument constructor
-	str2.print();
-	String str3 = str2; //CopyConstructor
-	str3.print();
-	String str4(); //Здесь не вызывается никакой конструктор, 
+	//String str1; //Default constructor
+	//str1.print();
+	//String str2 = "Hello"; //Single-argument constructor
+	//str2.print();
+	//String str3 = str2; //CopyConstructor
+	//str3.print();
+	//String str4(); //Здесь не вызывается никакой конструктор, 
 	//поскольку здесь не создается обьект, а обьявляется функция str4
 	//которая ничего не принимает и возвращ0ает значение типа String
 	/*str4.print();*/
