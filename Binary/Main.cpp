@@ -8,6 +8,34 @@ class Binary
 	unsigned int capacity; //разрядность числа
 	
 public:
+	unsigned int get_capacity() const {
+		return capacity;
+	}
+
+	const bool* get_number() const
+	{
+		return number;
+	}
+
+	bool* get_number()
+	{
+		return number;
+	}
+
+	void set_capacity(int capacity)
+	{
+		if (capacity > 32) capacity = 32;
+		bool* new_number = new bool[capacity] {};
+		for (size_t i = 0; this->capacity<capacity? this->capacity:capacity; i++)
+		{
+			new_number[i] = this->number[i];
+		}
+		this->capacity = capacity;
+		delete[] this->number;
+		this->number = new_number;
+
+	}
+
 	Binary()
 	{
 		capacity = 8;//по умолчанию число будет разрядностью занимать 1 байт
@@ -94,6 +122,19 @@ public:
 		cout << "MoveAssignment:\t" << this << endl;
 
 	}
+	Binary operator~()const //NOT
+	{
+		Binary inversion = *this;
+		for (size_t i = 0; i < capacity; i++)
+		{
+			/*if (inversion.number[i] == 1) inversion.number[i] = 0;
+			else inversion.number[i] = 1;*/
+
+			inversion.number[i] = inversion.number[i] ? 0:1;
+		}
+		return inversion;
+	}
+
 
 	std::ostream& print(std::ostream& os = std::cout) const
 	{
@@ -113,6 +154,25 @@ public:
 
 };
 
+Binary operator|(const Binary& left, const Binary& right)
+{
+	Binary result;
+	int max_capacity = left.get_capacity() < right.get_capacity()?right.get_capacity() :left.get_capacity();
+	int min_capacity = left.get_capacity() > right.get_capacity() ? right.get_capacity() : left.get_capacity();
+	result.set_capacity(max_capacity);
+
+	for (size_t i = 0; i <min_capacity; i++)
+	{
+		
+			result.get_number()[i] = (left.get_number()[i] || right.get_number()[i]) ? 1 : 0;
+	}
+	for (size_t i = min_capacity; i < max_capacity; i++)
+	{
+		result.get_number()[i] = left.get_capacity() > right.get_capacity() ? right.get_number()[i] : right.get_number()[i];
+	}
+	return result;
+}
+
 std::ostream& operator<<(std::ostream& os, const Binary& obj)
 {
 	return obj.print(os);
@@ -130,5 +190,5 @@ void main()
 
 	Binary num3;
 	num3= num2;
-	cout << num3 << endl;
+	cout << ~num3 << endl;
 }
