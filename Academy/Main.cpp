@@ -169,11 +169,29 @@ public:
 	void print()const
 	{
 		Employee::print();
-		cout << "Тариф: " << rate << " ,отработано: " << hours << endl;
+		cout << "Тариф: " << rate << " ,отработано: " << hours << " итого: " << get_salary()<<endl;
 	}
 };
 
 void main()
 {
 	setlocale(LC_ALL, "");
+	Employee* department[] =
+	{
+		new PermanentEmployee("Rosenberg","Ken",30,"Lawyer", 2000),
+		new PermanentEmployee("Diaz","Ricardo",50,"Boss",50000),
+		new HourlyEmployee("Vercetty","Tomas",30,"Security",500,8)
+	};
+	double total_salary = 0;
+	for (size_t i = 0; i < sizeof(department)/sizeof(Employee*); i++)
+	{
+		cout << "\n----------------------------------\n";
+		department[i]->print();
+		total_salary += department[i]->get_salary();
+	}
+	cout << "Общая зарплата всего отдела: " << total_salary << endl;
+	for (size_t i = 0; i < sizeof(department) / sizeof(Employee*); i++)
+	{
+		delete department[i];
+	}
 }
