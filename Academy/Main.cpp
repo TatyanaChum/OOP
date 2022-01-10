@@ -169,7 +169,7 @@ public:
 	void print()const
 	{
 		Employee::print();
-		cout << "Тариф: " << rate << " ,отработано: " << hours << " итого: " << get_salary()<<endl;
+		cout << "Тариф: " << rate << ",отработано: " << hours << " итого: " << get_salary()<<endl;
 	}
 };
 
@@ -189,7 +189,9 @@ void main()
 		department[i]->print();
 		total_salary += department[i]->get_salary();
 	}
+	cout << "\n----------------------------------\n";
 	cout << "Общая зарплата всего отдела: " << total_salary << endl;
+	cout << "\n----------------------------------\n";
 	for (size_t i = 0; i < sizeof(department) / sizeof(Employee*); i++)
 	{
 		delete department[i];
