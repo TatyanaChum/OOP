@@ -56,6 +56,11 @@ public:
 	}
 };
 
+ostream& operator<<(ostream& os, const Human& obj)
+{
+	return os << obj.get_last_name() << " " << obj.get_first_name() << " " << obj.get_age() << endl;
+}
+
 #define EMPLOYEE_TAKE_PARAMETERS	const std::string& position
 #define EMPLOYEE_GIVE_PARAMETERS	position
 
@@ -91,6 +96,11 @@ public:
 	}
 };
 
+ostream& operator<<(ostream& os, const Employee& obj)
+{
+	os << (Human)obj;
+	return os << obj.get_position();
+}
 #define PERMANENT_EMPLOYEE_TAKE_PARAMETERS double salary
 #define PERMANENT_EMPLOYEE_GIVE_PARAMETERS salary
 
@@ -130,6 +140,12 @@ public:
 
 #define HOURLY_EMPLOYEE_TAKE_PARAMETERS double rate, int hours
 #define HOURLY_EMPLOYEE_GIVE_PARAMETERS rate, hours
+
+ostream& operator<<(ostream& os, const PermanentEmployee& obj)
+{
+	return os << (Employee&)obj << " " << obj.get_salary();
+}
+
 
 class HourlyEmployee :public Employee
 {
@@ -178,6 +194,12 @@ public:
 	}
 };
 
+ostream& operator<<(ostream& os, const HourlyEmployee& obj)
+{
+	return os << (Employee&)obj << "rate: " << obj.get_rate() << "hours: " << obj.get_hours() << "total: " << obj.get_salary() << endl;
+}
+
+
 void main()
 {
 	std::string str = "Hello";
@@ -185,6 +207,7 @@ void main()
 	cout << typeid(str.c_str()).name() << endl;
 
 	setlocale(LC_ALL, "");
+	//Generalisatoin(Upcast):
 	Employee* department[] =
 	{
 		new PermanentEmployee("Rosenberg", "Ken", 30, "Lawyer", 2000),
@@ -199,7 +222,14 @@ void main()
 	{
 		cout << "\n--------------------------------------\n";
 		//department[i]->print();
+		cout << typeid(*department[i]).name() << endl;
+		//Specialisation(
 		cout << *department[i] << endl;
+		if (typeid(*department[i]) == typeid(PermanentEmployee))
+			cout << dynamic_cast<PermanentEmployee*>(department[i]) << endl;
+		if (typeid(*department[i]) == typeid(HourlyEmployee))
+			cout << dynamic_cast<HourlyEmployee*>(department[i]) << endl;
+		//dynamic_cast<DerivedClass*>(BaseClass*);
 		total_salary += department[i]->get_salary();
 	}
 	cout << "\n--------------------------------------\n";
